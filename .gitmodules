@@ -1,0 +1,9 @@
+[submodule "lib/tinycc"]
+	path = lib/tinycc
+	url = git://repo.or.cz/tinycc.git
+    shallow = true
+
+[submodule "lib/antlr4"]
+	path = lib/antlr4
+	url = https://github.com/antlr/antlr4.git
+    shallow = true
