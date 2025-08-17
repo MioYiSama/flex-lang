@@ -1,0 +1,60 @@
+name: FlexLanguage
+file_extensions:
+  - flex
+scope: source.flex
+
+variables:
+  keywords: "var|const|def|if|else|match|or|loop|in|func|return|type|enum|method|interface|impl|module|import"
+
+contexts:
+  main:
+    - match: "`"
+      scope: entity
+      push:
+        - meta_scope: entity
+        - match: "`"
+          pop: true
+
+    - include: comments
+    - include: constants
+
+    - match: '\b({{keywords}})\b'
+      scope: keyword
+
+    - match: '"'
+      scope: string
+      push:
+        - meta_scope: string
+        - match: '"'
+          pop: true
+
+  comments:
+    - match: "//"
+      scope: comment
+      push:
+        - meta_scope: comment
+        - match: "$"
+          pop: true
+
+    - match: '\/\*'
+      scope: comment
+      push:
+        - meta_scope: comment
+        - match: '\*\/'
+          pop: true
+
+  constants:
+    - match: '\b\d+\.\d+'
+      scope: constant.numeric.float
+
+    - match: '\b\d+'
+      scope: constant.numeric.integer
+
+    - match: '\b(true|false)\b'
+      scope: constant.language.boolean
+
+    - match: '\b(void)\b'
+      scope: constant.language.null
+
+    - match: "'\\S+'"
+      scope: constant.character
